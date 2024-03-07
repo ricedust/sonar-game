@@ -1,8 +1,11 @@
 #pragma once
 
+#include "GameManager.h"
 #include "ofMain.h"
 
 class ofApp : public ofBaseApp {
+	GameManager gameManager;
+
    public:
 	void setup();
 	void update();

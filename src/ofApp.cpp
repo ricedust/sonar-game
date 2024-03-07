@@ -10,7 +10,12 @@ void ofApp::update() {}
 void ofApp::draw() {}
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {}
+void ofApp::keyPressed(int key) {
+	if (key == ' ' && gameManager.getState() == GameState::preGame)
+		gameManager.start();
+		
+	cout << (int)gameManager.getState() << "\n";
+}
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key) {}
