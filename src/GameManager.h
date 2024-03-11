@@ -12,5 +12,5 @@ class GameManager {
 	void start();
 	void end();
 
-	GameState getState();
+	GameState getState() const;
 };

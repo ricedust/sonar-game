@@ -1,10 +1,17 @@
 #pragma once
 
+#include "AgentEmitter.h"
+#include "DebugMenu.h"
 #include "GameManager.h"
+#include "SceneObject.h"
 #include "ofMain.h"
 
 class ofApp : public ofBaseApp {
-	GameManager gameManager;
+	DebugMenu debugMenu{};
+	GameManager gameManager{};
+
+	shared_ptr<Player> player;
+	AgentEmitter agentEmitter;
 
    public:
 	void setup();

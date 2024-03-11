@@ -6,4 +6,4 @@ GameManager::GameManager(GameState initialState)
 void GameManager::start() { currentState = GameState::inGame; }
 void GameManager::end() { currentState = GameState::postGame; }
 
-GameState GameManager::getState() { return currentState; }
+GameState GameManager::getState() const { return currentState; }
