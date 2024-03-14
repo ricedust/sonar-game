@@ -65,7 +65,7 @@ void ofApp::draw() {
 	switch (gameManager.getState()) {
 		case GameState::preGame:
 			ofDrawBitmapString("Press [Spacebar] to start!",
-							   ofGetWindowHeight() / 2,
+							   ofGetWindowWidth() / 2 - 64,
 							   ofGetWindowHeight() / 2);
 			ofDrawBitmapString(
 				"Press [F3] to toggle the control panel and debug info at any "
@@ -81,7 +81,7 @@ void ofApp::draw() {
 			break;
 		case GameState::postGame:
 			ofDrawBitmapString("Press [Spacebar] to restart!",
-							   ofGetWindowHeight() / 2,
+							   ofGetWindowWidth() / 2 - 64,
 							   ofGetWindowHeight() / 2);
 			break;
 	}
