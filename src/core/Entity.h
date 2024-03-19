@@ -2,9 +2,10 @@
 
 #include <bitset>
 
-const int maxComponents{32};
+#include "Limits.h"
+
 typedef std::bitset<maxComponents> ComponentMask;
-typedef unsigned long EntityID;
+typedef ulong EntityID;
 
 struct Entity {
 	EntityID id{};

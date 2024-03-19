@@ -14,6 +14,9 @@ class Scene {
 	template <typename T>
 	void addComponentToEntity(EntityID id) {
 		int componentID = getID<T>();
+
+
+
 		entities[id].componentMask.set(componentID);
 	}
 };
