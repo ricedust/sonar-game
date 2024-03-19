@@ -1,8 +1,12 @@
+#pragma once
+
 #include <bitset>
 
 const int maxComponents{32};
+typedef std::bitset<maxComponents> ComponentMask;
+typedef unsigned long EntityID;
 
 struct Entity {
-	unsigned int ID;
-	std::bitset<maxComponents> componentMask;
+	EntityID id{};
+	ComponentMask componentMask{};
 };
