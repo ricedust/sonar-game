@@ -4,8 +4,8 @@
 #include "ofMain.h"
 
 class Agent : public SceneObject {
-	float timeAliveSeconds;
-	glm::vec3 targetPosition;
+	float timeAliveSeconds{0};
+	glm::vec3 targetPosition{};
 
    public:
 	float speed{0};
