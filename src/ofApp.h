@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "SceneObject.h"
 #include "ofMain.h"
+#include "Component.h"
 
 class ofApp : public ofBaseApp {
 	DebugMenu debugMenu{};

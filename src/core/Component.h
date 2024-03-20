@@ -7,21 +7,22 @@
 #include <vector>
 
 #include "Constraints.h"
+#include "Entity.h"
 
-typedef uint ComponentID;
+typedef uint ComponentIndex;
 
-extern ComponentID componentTypeCounter;
+extern ComponentIndex componentTypeCounter;
 
-/// @brief Generates or recalls the ID of a given component.
+/// @brief Generates or recalls the index of a given component.
 /// @tparam T The component type.
-/// @return a component ID.
+/// @return a component index.
 template <typename T>
-ComponentID getID() {
-	static ComponentID componentID = componentTypeCounter++;
-	return componentID;
+ComponentIndex getComponentIndex() {
+	static ComponentIndex componentIndex = componentTypeCounter++;
+	return componentIndex;
 };
 
-/// @brief Basically a memory pool that gets inititialized at runtime to be the
+/// @brief A memory pool that gets inititialized at runtime to be the
 /// size of the component * max # entities.
 struct ComponentPool {
    private:
@@ -29,14 +30,15 @@ struct ComponentPool {
 	std::unique_ptr<std::byte[]> bytes{nullptr};
 
    public:
+	ComponentPool() = default;
 	ComponentPool(size_t componentSize);
 
 	/// @tparam T The component type.
-	/// @param index The index of the component.
+	/// @param entityIndex The entity's index.
 	/// @return A reference to the component.
 	template <typename T>
-	T& get(size_t index) {
-		T* component = static_cast<T*>(bytes.get() + index * componentSize);
+	T& get(EntityIndex entityIndex) {
+		T* component = reinterpret_cast<T*>(bytes.get() + entityIndex * componentSize);
 		return *component;
 	}
 };

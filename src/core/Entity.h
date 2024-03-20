@@ -5,9 +5,9 @@
 #include "Constraints.h"
 
 typedef std::bitset<maxComponents> ComponentMask;
-typedef ulong EntityID;
+typedef ulong EntityIndex;
 
 struct Entity {
-	EntityID id{};
+	EntityIndex index{};
 	ComponentMask componentMask{};
 };

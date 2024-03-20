@@ -2,6 +2,15 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
+	// vector<ComponentPool> pools(5);
+	// pools.resize(1);
+	// pools[0] = {sizeof(Transform)};
+	// pools[0].get<Transform>(0) = {glm::vec3{}, 90, glm::vec3{}};
+	// Transform t = pools[0].get<Transform>(0);
+	// cout << pools[0].get<Transform>(0) << '\n'; 
+
+	ofExit();
+
 	debugMenu.setup();
 
 	ofSetBackgroundColor(ofColor::black);
