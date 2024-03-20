@@ -1,5 +1,5 @@
 #include "Component.h"
-int componentCounter{0};
+ComponentID componentTypeCounter{0};
 
 ComponentPool::ComponentPool(size_t componentSize)
 	: componentSize{componentSize},

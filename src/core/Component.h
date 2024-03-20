@@ -6,25 +6,27 @@
 #include <memory>
 #include <vector>
 
-#include "Limits.h"
+#include "Constraints.h"
 
-extern int componentCounter;
+typedef uint ComponentID;
+
+extern ComponentID componentTypeCounter;
 
 /// @brief Generates or recalls the ID of a given component.
 /// @tparam T The component type.
 /// @return a component ID.
 template <typename T>
-int getID() {
-	static int componentID = componentCounter++;
+ComponentID getID() {
+	static ComponentID componentID = componentTypeCounter++;
 	return componentID;
 };
 
 /// @brief Basically a memory pool that gets inititialized at runtime to be the
-/// size of the component * max entities.
+/// size of the component * max # entities.
 struct ComponentPool {
    private:
-	std::unique_ptr<std::byte[]> bytes{nullptr};
 	size_t componentSize{0};
+	std::unique_ptr<std::byte[]> bytes{nullptr};
 
    public:
 	ComponentPool(size_t componentSize);
@@ -34,7 +36,7 @@ struct ComponentPool {
 	/// @return A reference to the component.
 	template <typename T>
 	T& get(size_t index) {
-		T* component = static_cast<T*>(bytes + index * componentSize);
+		T* component = static_cast<T*>(bytes.get() + index * componentSize);
 		return *component;
 	}
 };

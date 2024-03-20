@@ -2,7 +2,7 @@
 
 #include <bitset>
 
-#include "Limits.h"
+#include "Constraints.h"
 
 typedef std::bitset<maxComponents> ComponentMask;
 typedef ulong EntityID;
