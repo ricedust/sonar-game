@@ -37,8 +37,12 @@ struct ComponentPool {
 	/// @param entityIndex The entity's index.
 	/// @return A reference to the component.
 	template <typename T>
-	T& get(EntityIndex entityIndex) {
-		T* component = reinterpret_cast<T*>(bytes.get() + entityIndex * componentSize);
-		return *component;
-	}
+	T& get(EntityIndex entityIndex);
 };
+
+template <typename T>
+T& ComponentPool::get(EntityIndex entityIndex) {
+	T* component =
+		reinterpret_cast<T*>(bytes.get() + entityIndex * componentSize);
+	return *component;
+}

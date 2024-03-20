@@ -6,6 +6,7 @@
 #include "SceneObject.h"
 #include "ofMain.h"
 #include "Component.h"
+#include "Scene.h"
 
 class ofApp : public ofBaseApp {
 	DebugMenu debugMenu{};
