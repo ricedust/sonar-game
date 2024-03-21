@@ -14,6 +14,9 @@ class Scene {
 	std::vector<EntityIndex> freeIndices{};
 	std::vector<ComponentPool> componentPools{};
 
+	template <typename... ComponentTypes>
+	friend class EntityView;
+
    public:
 	/// @brief Adds an entity to the scene.
 	/// @return The new entity's index.
@@ -50,7 +53,7 @@ template <typename T>
 bool Scene::tryGetComponent(EntityIndex entityIndex, T& outComponent) {
 	ComponentIndex componentIndex = getComponentIndex<T>();
 
-	if (!entities[entityIndex].componentMask.test(componentIndex)) return false;
+	if (!entities[entityIndex].mask.test(componentIndex)) return false;
 
 	outComponent = componentPools[componentIndex].get<T>(entityIndex);
 	return true;
@@ -72,34 +75,54 @@ void Scene::assignComponent(EntityIndex entityIndex, T&& component) {
 	componentPools[componentIndex].get<T>(entityIndex) = std::move(component);
 
 	// set the entities component mask
-	entities[entityIndex].componentMask.set(componentIndex);
+	entities[entityIndex].mask.set(componentIndex);
 }
 
 template <typename T>
 void Scene::removeComponent(EntityIndex entityIndex) {
 	ComponentIndex componentIndex = getComponentIndex<T>();
-	entities[entityIndex].componentMask.reset(componentIndex);
+	entities[entityIndex].mask.reset(componentIndex);
 }
 
 template <typename... ComponentTypes>
-struct EntityView {
-	ComponentMask componentMask{};
+class EntityView {
+   private:
 	const Scene& scene;
+	ComponentMask mask {}
+	bool includeAllEntities{false};
 
+   public:
 	EntityView(const Scene& scene);
+
+	struct Iterator {
+	   private:
+		std::vector<EntityIndex>* ptr;
+
+	   public:
+		Iterator(std::vector<EntityIndex>* ptr, ComponentMask& mask);
+	};
+
+	Iterator begin();
+	Iterator end();
+
+	// TODO: make const
 };
 
 template <typename... ComponentTypes>
 EntityView<ComponentTypes...>::EntityView(const Scene& scene) : scene{scene} {
-	// if no parameters, assume all entities requested
+	
+	// if no component types provided, do not filter entities
 	if (sizeof...(ComponentTypes) == 0) {
-		componentMask.set();
+		mask.set();
+		includeAllEntities = true;
 		return;
 	}
 
-	// construct component mask based on parameters
-	int componentIndices[] = {0, getComponentIndex<ComponentTypes>()...};
-	for (ComponentIndex i = 0; i < sizeof...(ComponentTypes) + 1; i++) {
-		componentMask.set(i);
+	// construct mask based on component types
+	ComponentMask mask{};
+	ComponentIndex componentIndices[] = {
+		getComponentIndex<ComponentTypes>()...};
+	for (uint i = 0; i < sizeof...(ComponentTypes); i++) {
+		mask.set(componentIndices[i]);
 	}
 }

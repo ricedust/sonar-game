@@ -14,6 +14,6 @@ EntityIndex Scene::addEntity() {
 }
 
 void Scene::destroyEntity(EntityIndex entityIndex) {
-	entities[entityIndex].componentMask.reset();
+	entities[entityIndex].mask.reset();
 	freeIndices.push_back(entityIndex);
 }

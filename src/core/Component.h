@@ -9,7 +9,7 @@
 #include "Constraints.h"
 #include "Entity.h"
 
-typedef uint ComponentIndex;
+using ComponentIndex = uint;
 
 extern ComponentIndex componentTypeCounter;
 

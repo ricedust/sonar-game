@@ -4,10 +4,10 @@
 
 #include "Constraints.h"
 
-typedef std::bitset<maxComponents> ComponentMask;
-typedef ulong EntityIndex;
+using ComponentMask = std::bitset<maxComponents>;
+using EntityIndex = ulong;
 
 struct Entity {
 	EntityIndex index{};
-	ComponentMask componentMask{};
+	ComponentMask mask{};
 };
