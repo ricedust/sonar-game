@@ -1,7 +1,7 @@
 /.vscode
 /Makefile
 /addons.make
-/bin
+/bin/*
 !/bin/data
 /config.make
 /project-1.code-workspace
