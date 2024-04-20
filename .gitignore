@@ -2,6 +2,7 @@
 /Makefile
 /addons.make
 /bin
+!/bin/data
 /config.make
 /project-1.code-workspace
 /project-1.qbs
