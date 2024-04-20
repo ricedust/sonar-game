@@ -2,20 +2,23 @@
 
 #include <stddef.h>
 
+#include <bitset>
 #include <cstddef>
 #include <memory>
 #include <vector>
 
 #include "Constraints.h"
-#include "Entity.h"
 
+/// @brief Where an entity is indexed in the scene and component pools.
+using EntityIndex = ulong;
+/// @brief The unique index assigned to each component type.
 using ComponentIndex = uint;
 
 extern ComponentIndex componentTypeCounter;
 
 /// @brief Generates or recalls the index of a given component.
 /// @tparam T The component type.
-/// @return a component index.
+/// @return A component index.
 template <typename T>
 ComponentIndex getComponentIndex() {
 	static ComponentIndex componentIndex = componentTypeCounter++;
@@ -38,6 +41,8 @@ struct ComponentPool {
 	/// @return A reference to the component.
 	template <typename T>
 	T& get(EntityIndex entityIndex);
+
+	size_t getComponentSize();
 };
 
 template <typename T>

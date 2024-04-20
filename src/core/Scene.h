@@ -2,7 +2,9 @@
 
 #include <assert.h>
 
+#include <iostream>
 #include <vector>
+#include <queue>
 
 #include "Component.h"
 #include "Entity.h"
@@ -11,29 +13,31 @@
 /// can be thought of as a row, and component pools as columns
 class Scene {
 	std::vector<Entity> entities{};
-	std::vector<EntityIndex> freeIndices{};
+	std::queue<EntityIndex> freeIndices{};
 	std::vector<ComponentPool> componentPools{};
-
-	template <typename... ComponentTypes>
-	friend class EntityView;
 
    public:
 	/// @brief Adds an entity to the scene.
 	/// @return The new entity's index.
 	EntityIndex addEntity();
 
+	/// @return A reference to the vector of entities.
+	const std::vector<Entity>& getEntities() const;
+
 	/// @brief Unregisters the entity from all components. The entityIndex may
 	/// be reclaimed by a new entity.
 	/// @param entityIndex The entity's index to relinquish.
 	void destroyEntity(EntityIndex entityIndex);
 
-	/// @brief Attempts to get component belonging to an entity.
+	/// @brief Clears all entities.
+	void reset();
+
+	/// @brief Retreives a component belonging to an entity.
 	/// @tparam T The component type.
 	/// @param entityIndex The entity's index.
-	/// @param outComponent An out reference to the component.
-	/// @return Whether or not the entity has the component.
+	/// @return A component reference.
 	template <typename T>
-	bool tryGetComponent(EntityIndex entityIndex, T& outComponent);
+	T& getComponent(EntityIndex entityIndex);
 
 	/// @brief Moves and assigns a component to an entity.
 	/// @tparam T The component type.
@@ -41,6 +45,12 @@ class Scene {
 	/// @param component A sink for the component to assign.
 	template <typename T>
 	void assignComponent(EntityIndex entityIndex, T&& component);
+
+	/// @brief Assigns a component to an entity.
+	/// @tparam T The component type.
+	/// @param entityIndex The entity's index.
+	template <typename T>
+	void assignComponent(EntityIndex entityIndex);
 
 	/// @brief Removes a component from an entity.
 	/// @tparam T The component type.
@@ -50,13 +60,15 @@ class Scene {
 };
 
 template <typename T>
-bool Scene::tryGetComponent(EntityIndex entityIndex, T& outComponent) {
+T& Scene::getComponent(EntityIndex entityIndex) {
 	ComponentIndex componentIndex = getComponentIndex<T>();
 
-	if (!entities[entityIndex].mask.test(componentIndex)) return false;
+	// assert(entities[entityIndex].mask.test(componentIndex) && "Entity missing
+	// component.");
+	if (!entities[entityIndex].mask.test(componentIndex))
+		std::cout << "MISSING COMPONENT" << '\n';
 
-	outComponent = componentPools[componentIndex].get<T>(entityIndex);
-	return true;
+	return componentPools[componentIndex].get<T>(entityIndex);
 }
 
 template <typename T>
@@ -68,7 +80,7 @@ void Scene::assignComponent(EntityIndex entityIndex, T&& component) {
 		componentPools.resize(componentIndex + 1);
 
 	// initialize pool if it doesn't exist
-	if (componentPools[componentIndex].componentSize == 0)
+	if (componentPools[componentIndex].getComponentSize() == 0)
 		componentPools[componentIndex] = {sizeof(T)};
 
 	// move the component into the pool at the entityIndex
@@ -79,50 +91,12 @@ void Scene::assignComponent(EntityIndex entityIndex, T&& component) {
 }
 
 template <typename T>
+void Scene::assignComponent(EntityIndex entityIndex) {
+	assignComponent<T>(entityIndex, {});
+}
+
+template <typename T>
 void Scene::removeComponent(EntityIndex entityIndex) {
 	ComponentIndex componentIndex = getComponentIndex<T>();
 	entities[entityIndex].mask.reset(componentIndex);
-}
-
-template <typename... ComponentTypes>
-class EntityView {
-   private:
-	const Scene& scene;
-	ComponentMask mask {}
-	bool includeAllEntities{false};
-
-   public:
-	EntityView(const Scene& scene);
-
-	struct Iterator {
-	   private:
-		std::vector<EntityIndex>* ptr;
-
-	   public:
-		Iterator(std::vector<EntityIndex>* ptr, ComponentMask& mask);
-	};
-
-	Iterator begin();
-	Iterator end();
-
-	// TODO: make const
-};
-
-template <typename... ComponentTypes>
-EntityView<ComponentTypes...>::EntityView(const Scene& scene) : scene{scene} {
-	
-	// if no component types provided, do not filter entities
-	if (sizeof...(ComponentTypes) == 0) {
-		mask.set();
-		includeAllEntities = true;
-		return;
-	}
-
-	// construct mask based on component types
-	ComponentMask mask{};
-	ComponentIndex componentIndices[] = {
-		getComponentIndex<ComponentTypes>()...};
-	for (uint i = 0; i < sizeof...(ComponentTypes); i++) {
-		mask.set(componentIndices[i]);
-	}
 }

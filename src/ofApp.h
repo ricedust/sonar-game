@@ -1,19 +1,60 @@
 #pragma once
 
-#include "AgentEmitter.h"
-#include "DebugMenu.h"
-#include "GameManager.h"
-#include "SceneObject.h"
-#include "ofMain.h"
+#include "AgentSystem.h"
+#include "AudioSystem.h"
+#include "BulletSystem.h"
+#include "CameraSystem.h"
+#include "CollisionSystem.h"
 #include "Component.h"
+#include "ControlSystem.h"
+#include "EmitterSystem.h"
+#include "FadeSystem.h"
+#include "GameState.h"
+#include "GuiSystem.h"
+#include "InputSystem.h"
+#include "LifespanSystem.h"
+#include "PhysicsSystem.h"
+#include "Player.h"
+#include "RenderSystem.h"
+#include "ScanSystem.h"
 #include "Scene.h"
+#include "ofMain.h"
+
+const float viewportRadius{1080 / 2};
 
 class ofApp : public ofBaseApp {
-	DebugMenu debugMenu{};
-	GameManager gameManager{};
+	GameState state{GameState::preGame};
 
-	shared_ptr<Player> player;
-	AgentEmitter agentEmitter;
+	Scene scene{};
+
+	InputSystem inputSystem{};
+	CameraSystem cameraSystem{};
+	GuiSystem guiSystem{scene};
+
+	PhysicsSystem physicsSystem{scene};
+	CollisionSystem collisionSystem{scene};
+	FadeSystem fadeSystem{scene};
+	RenderSystem renderSystem{scene};
+	EmitterSystem emitterSystem{scene};
+	LifespanSystem lifespanSystem{scene};
+
+	ControlSystem controlSystem{scene, inputSystem};
+	AgentSystem agentSystem{scene, collisionSystem};
+	BulletSystem bulletSystem{scene};
+	ScanSystem scanSystem{scene};
+
+	EntityIndex playerIndex;
+	EntityIndex enemyEmitterIndex;
+	EntityIndex sonarIndex;
+	EntityIndex compassIndex;
+	EntityIndex bulletEmitterIndex;
+	EntityIndex scannerIndex;
+
+	void setupPlayer();
+	void setupEnemyEmitter();
+	void setupHud();
+	void setupScanner();
+	void setupBulletEmitter();
 
    public:
 	void setup();
