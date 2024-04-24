@@ -1,4 +1,4 @@
 #pragma once
 
-const uint maxEntities{2048};
-const uint maxComponents{32};
+const unsigned int maxEntities{2048};
+const unsigned int maxComponents{32};

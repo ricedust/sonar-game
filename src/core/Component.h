@@ -10,9 +10,9 @@
 #include "Constraints.h"
 
 /// @brief Where an entity is indexed in the scene and component pools.
-using EntityIndex = ulong;
+using EntityIndex = size_t;
 /// @brief The unique index assigned to each component type.
-using ComponentIndex = uint;
+using ComponentIndex = size_t;
 
 extern ComponentIndex componentTypeCounter;
 

@@ -14,7 +14,7 @@ void EmitterSystem::update() {
 		if (emitter.intervalTimerSeconds < secondsBetweenParticles) continue;
 
 		// calculate how many new particles to create
-		uint numParticles =
+		unsigned int numParticles =
 			emitter.intervalTimerSeconds / secondsBetweenParticles;
 
 		// reset interval

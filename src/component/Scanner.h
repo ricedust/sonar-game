@@ -3,5 +3,5 @@
 struct Scanner {
 	float degreesPerSecond{};
 	float degreesOffset{};
-	uint revolutions{};
+	unsigned int revolutions{};
 };

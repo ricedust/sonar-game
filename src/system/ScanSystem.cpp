@@ -14,7 +14,7 @@ void ScanSystem::update(EntityIndex trueScannerIndex, const Transform& origin) {
 		origin.rotationDegrees + scanner.degreesOffset;
 
 	// play ping if revolution reached
-	uint currentRevolutions{std::abs(scanner.degreesOffset / 360)};
+	unsigned int currentRevolutions{std::abs(scanner.degreesOffset / 360)};
 	if (currentRevolutions > scanner.revolutions) {
 		AudioSystem::play(Sound::ping);
 		scanner.revolutions = currentRevolutions;
