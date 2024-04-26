@@ -11,7 +11,7 @@ Sonar is a simple space invaders style, arcade shooter where you control a subma
 
 I wrote Sonar almost from scratch in C++ using the OpenGL-based [openFrameworks library](https://openframeworks.cc/).
 
-I also custom wrote an Entity Component System (ECS) to support simple game engine functionalities. This can be found in the src/core directory.
+I also custom wrote a primitive game engine backed by an Entity Component System (ECS) to support the game's functionalities. This can be found in the src/core directory.
 I used [David Colson's fabulous ECS guide](https://www.david-colson.com/2020/02/09/making-a-simple-ecs.html) as a starting point to which I applied my own flavor and functionalities.
 
 All assets, including graphics, sound, and music are original.
