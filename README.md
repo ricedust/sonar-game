@@ -5,7 +5,7 @@
 [![demo video](https://i.ytimg.com/vi/40gjBbI7tP0/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGBQgcigRMA8=&rs=AOn4CLBaJrKfyXxYJ_OjRSOG4HQG6beqzA)
 ](https://youtu.be/40gjBbI7tP0)
 
-You can access the build shown in the gameplay video in the [releases section](https://github.com/ricedust/sonar-game/releases).
+## You can access the build shown in the gameplay video in the [releases section](https://github.com/ricedust/sonar-game/releases).
 
 ## About
 
