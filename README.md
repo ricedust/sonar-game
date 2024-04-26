@@ -11,6 +11,9 @@
 
 Sonar is a space invaders-style, arcade shooter where you control a submarine from behind a sonar panel in an unbounded and hostile ocean.
 
+
+## Implementation and ECS
+
 Sonar is written almost from scratch in C++ using the OpenGL-based [openFrameworks library](https://openframeworks.cc/).
 
 I also custom wrote a primitive game engine backed by an Entity Component System (ECS) to support the game's functionalities. This can be found in the `src/core` directory.
